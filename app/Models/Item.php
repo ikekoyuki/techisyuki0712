@@ -11,11 +11,30 @@ class Item extends Model
      *
      * @var array<int, string>
      */
+    protected $dates = ['deleted_at'];
+
     protected $fillable = [
         'user_id',
         'name',
+        'area',
         'type',
         'detail',
+    ];
+
+    public const Area = [
+        "リビング",
+        "寝室",
+        "キッチン",
+        "玄関",
+        "トイレ・バス",
+        "その他"
+    ];
+
+    public const Type = [
+        "必要",
+        "大切",
+        "保留",
+        "捨てる"
     ];
 
     /**

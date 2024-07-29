@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', '商品登録')
+@section('title', 'モノ登録')
 
 @section('content_header')
-    <h1>商品登録</h1>
+    <h1>モノ登録</h1>
 @stop
 
 @section('content')
@@ -12,9 +12,9 @@
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
-                       @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                       @endforeach
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
                 </div>
             @endif
@@ -29,8 +29,26 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type">種別</label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="種別">
+                            <label for="name">エリア</label>
+                            <select name="area" data-toggle="select" class="form-control">
+                                <option value="">未選択</option>
+                                <option value="0">リビング</option>
+                                <option value ="1">寝室</option>
+                                <option value="2">キッチン</option>
+                                <option value="3">玄関</option>
+                                <option value="4">トイレ・バス</option>
+                                <option value="5">その他</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type">分類</label>
+                            <select name="type" data-toggle="select" class="form-control">
+                                <option value="">未選択</option>
+                                <option value="0">必要</option>
+                                <option value ="1">大切</option>
+                                <option value="2">保留</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
