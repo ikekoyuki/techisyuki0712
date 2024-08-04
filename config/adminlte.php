@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'モノ管理',
+    'title' => '片付け管理',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>モノ管理</b>',
+    'logo' => '<b>片付け管理</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'モノ管理',
+    'logo_img_alt' => '片付け管理',
 
     /*
     |--------------------------------------------------------------------------
@@ -296,7 +296,7 @@ return [
             'icon' => 'fas fa-gamepad',
         ],
         [
-            'text' => '捨てたモノ一覧',
+            'text' => '捨てたモノ振り返り',
             'url'  => 'items/lookback',
             'icon' => 'fas fa-gamepad',
         ],

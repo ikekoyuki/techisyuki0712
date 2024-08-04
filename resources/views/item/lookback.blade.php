@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', '捨てたモノ一覧')
+@section('title', '捨てたモノ振り返り')
 
 @section('content_header')
-    <h1>捨てたモノ一覧</h1>
+    <h1>捨てたモノ振り返り</h1>
 @stop
 
 @section('content')
@@ -29,16 +29,6 @@
                 </select>
             </div>
 
-            <!-- 分類で検索 -->
-            <div class="col-6 col-lg-2 mb-3">
-                <select name="type" class="form-control form-control-sm" aria-label="Default select example">
-                    <option value="" {{ isset($type) ? "selected":"" }}>分類</option>
-                    <option value="0" {{ $type == "0" ? "selected":"" }}>必要</option>
-                    <option value="1" {{ $type == "1" ? "selected":"" }}>大切</option>
-                    <option value="2" {{ $type == "2" ? "selected":"" }}>保留</option>
-                </select>
-            </div>
-
             <div class="col-lg-3 d-flex align-items-end">
 
             <!-- 検索ボタン -->
@@ -57,7 +47,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">モノ一覧</h3>
+                    <h3 class="card-title">捨てたモノ一覧</h3>
                     <div class="card-tools">
                         <div class="input-group input-group-sm">
                         </div>
@@ -70,7 +60,7 @@
                             <tr>
                                 <th>名前</th>
                                 <th>エリア</th>
-                                <th>分類</th>
+                                <th>捨てた日</th>
                                 <th>メモ</th>
                                 <th>&nbsp;</th>
                             </tr>
@@ -80,17 +70,14 @@
                                 <tr>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ \App\Models\Item::Area[$item->area] }}</td>
-                                    <td>{{ \App\Models\Item::Type[$item->type] }}</td>
-                                    <td>{{ $item->detail }}</td>
+                                    <td>{{ $item->dumpdate }}</td>
+                                    <td class="text-truncate" style="max-width: 200px;">{{ $item->detail }}</td>
 
-                                    <!-- 削除ボタン -->
-                                    <td>
-                                    <a href="/items/delete/{{$item->id}}">
-                                        <button type="button" class="btn btn-default btn-sm">削除</button>
-                                    </td>
-                                    <td>
-                                        <a href="/items/undo/{{$item->id}}">
-                                            <button type="button" class="btn btn-default btn-sm">元に戻す</button>
+                                    <!-- ボタン -->
+                                    <td class="text-right">
+                                    <a href="{{ url('items/edit',$item->id) }}" class="btn btn-primary btn-sm mr-3">編集</a>
+                                    <a href="{{ url('items/undo',$item->id) }}" class="btn btn-secondary btn-sm mr-3">保留に変更</a>
+                                    <a href="{{ url('items/delete',$item->id) }}" class="btn btn-danger btn-sm mr-3">削除</a>
                                     </td>
                                 </tr>
 

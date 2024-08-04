@@ -61,7 +61,7 @@
                     <div class="card-tools">
                         <div class="input-group input-group-sm">
                             <div class="input-group-append">
-                                <a href="{{ url('items/add') }}" class="btn btn-default">モノ登録</a>
+                                <a href="{{ url('items/add') }}" class="btn btn-default">モノ新規登録</a>
                             </div>
                         </div>
                     </div>
@@ -74,6 +74,7 @@
                                 <th>名前</th>
                                 <th>エリア</th>
                                 <th>分類</th>
+                                <th>購入日</th>
                                 <th>メモ</th>
                                 <th>&nbsp;</th>
                             </tr>
@@ -84,11 +85,14 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ \App\Models\Item::Area[$item->area] }}</td>
                                     <td>{{ \App\Models\Item::Type[$item->type] }}</td>
-                                    <td>{{ $item->detail }}</td>
+                                    <td>{{ $item->purchasedate }}</td>
+                                    <td class="text-truncate" style="max-width: 200px;">{{ $item->detail }}</td>
 
-                                    <!-- 詳細ボタン -->
-                                    <td>
-                                    <a href="{{ url('items/edit',$item->id) }}" class="btn btn-default btn-sm">編集</a>
+                                    <!-- 編集ボタン -->
+                                    <td class="text-right">
+                                    <a href="{{ url('items/edit',$item->id) }}" class="btn btn-primary btn-sm mr-3">編集</a>
+                                    <a href="{{ url('items/dump',$item->id) }}" class="btn btn-success btn-sm mr-3">捨てる</a>
+                                    <a href="{{ url('items/delete',$item->id) }}" class="btn btn-danger btn-sm" onclick='return confirm("本当に削除しますか？（捨てる場合は、「捨てる」ボタンを押してください")'>削除</a>
                                     </td>
                                 </tr>
                             @endforeach

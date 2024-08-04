@@ -28,25 +28,29 @@ class ItemController extends Controller
         $name = $request->input('name');
         $area = $request->input('area');
         $type = $request->input('type');
+        $purchasedate = $request->input('purchasedate');
         $detail = $request->input('detail');
 
         //捨てたものは表示しない
         $query->where('type', '!=', 3);
 
-                //名前で検索
+                //　名前で検索
                 if(!empty($name)) {
                     $query->where('name', 'LIKE', "%{$name}%");
                 }
 
-                //エリアで検索 （0の場合はemptyだと空とみなすためissetを使用)
+                //　エリアで検索 （0の場合はemptyだと空とみなすためissetを使用)
                 if(isset($area)) {
                     $query->where('area', '=', $area);
                 }
 
-                //分類で検索 （0の場合はemptyだと空とみなすためissetを使用)
+                //　分類で検索 （0の場合はemptyだと空とみなすためissetを使用)
                 if(isset($type)) {
                     $query->where('type', '=', $type);
                 }
+
+                // ユーザーのモノのみ表示
+                $query -> where('user_id',Auth::user()->id)->get();
 
                 // 登録日時の昇順で並び替え
                 $query->orderBy('created_at', 'asc');
@@ -54,7 +58,7 @@ class ItemController extends Controller
                 //ページネーション
                 $items = $query->paginate(15);
 
-        return view('item.index', compact('items','name','area','type','detail'));
+        return view('item.index', compact('items','name','area','type','purchasedate','detail'));
 
     }
 
@@ -67,7 +71,17 @@ class ItemController extends Controller
         if ($request->isMethod('post')) {
             // バリデーション
             $this->validate($request, [
-                'name' => 'required|max:100',
+                'name' => 'required|max:50',
+                'area' => 'required',
+                'type' => 'required',
+                'detail' => 'max:300',
+            ],
+            [
+                'name.required' => '名前を入力してください',
+                'name.max' => '名前の入力は50文字までです。',
+                'area.required' => 'エリアを選択してください',
+                'type.required' => '分類を選択してください',
+                'detail.max' => 'メモの入力は300文字までです。'
             ]);
 
             // モノ登録
@@ -76,6 +90,7 @@ class ItemController extends Controller
                 'name' => $request->name,
                 'area' => $request->area,
                 'type' => $request->type,
+                'purchasedate' => $request->purchasedate,
                 'detail' => $request->detail
             ]);
 
@@ -94,7 +109,17 @@ class ItemController extends Controller
         if ($request->isMethod('post')) {
             // バリデーション
             $this->validate($request, [
-                'name' => 'required|max:100',
+                'name' => 'required|max:50',
+                'area' => 'required',
+                'type' => 'required',
+                'detail' => 'max:300',
+            ],
+            [
+                'name.required' => '名前を入力してください',
+                'name.max' => '名前の入力は50文字までです。',
+                'area.required' => 'エリアを選択してください',
+                'type.required' => '分類を選択してください',
+                'detail.max' => 'メモの入力は300文字までです。'
             ]);
 
         $items = Item::find($request->id);
@@ -105,12 +130,18 @@ class ItemController extends Controller
                 'name' => $request->name,
                 'area' => $request->area,
                 'type' => $request->type,
+                'purchasedate' => $request->purchasedate,
                 'detail' => $request->detail
             ]);
         }
 
-        return redirect('/items');
+        if ($items->type != 3) {
+            return redirect('/items');
         }
+
+            return redirect('/items/lookback');
+
+    }
 
         return view('item.edit',['item' => Item::find($request->id)] );
     }
@@ -125,6 +156,7 @@ class ItemController extends Controller
     {
         $items = Item::where('id', $request->id)->first();
         $items->type = 3;
+        $items->dumpdate = now();
         $items->save();
 
         return redirect('/items');
@@ -170,8 +202,11 @@ class ItemController extends Controller
                     $query->where('area', '=', $area);
                 }
 
-                // 登録日時の昇順で並び替え
-                $query->orderBy('created_at', 'asc');
+                // ユーザーのモノのみ表示
+                $query -> where('user_id',Auth::user()->id)->get();
+
+                // 捨てた日の降順で並び替え
+                $query->orderBy('dumpdate', 'desc');
 
                 //ページネーション
                 $items = $query->paginate(15);

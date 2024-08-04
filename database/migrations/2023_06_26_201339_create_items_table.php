@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->index();
-            $table->string('name', 100)->index();
+            $table->string('name', 50)->index();
             $table->tinyInteger('area');
             $table->tinyInteger('type');
-            $table->string('detail', 500)->nullable();
+            $table->string('detail', 300)->nullable();
+            $table->date('purchasedate')->nullable(); //購入した日
+            $table->date('dumpdate')->nullable(); //「捨てたモノ一覧」に移動した日
             $table->timestamps();
         });
     }

@@ -19,6 +19,8 @@ class Item extends Model
         'area',
         'type',
         'detail',
+        'purchasedate',
+        'dumpdate'
     ];
 
     public const Area = [
@@ -36,6 +38,7 @@ class Item extends Model
         "保留",
         "捨てる"
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
