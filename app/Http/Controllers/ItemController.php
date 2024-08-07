@@ -52,8 +52,8 @@ class ItemController extends Controller
                 // ユーザーのモノのみ表示
                 $query -> where('user_id',Auth::user()->id)->get();
 
-                // 登録日時の昇順で並び替え
-                $query->orderBy('created_at', 'asc');
+                // 登録日時の降順で並び替え
+                $query->orderBy('created_at', 'desc');
 
                 //ページネーション
                 $items = $query->paginate(15);
