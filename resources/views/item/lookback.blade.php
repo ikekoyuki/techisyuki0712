@@ -86,6 +86,17 @@
                     </table>
                 </div>
             </div>
+
+            <!-- ページネーション用のリンクボタン -->
+            <div class="d-flex justify-content-center">
+                {{ $items->appends(request()->query())->links('pagination::bootstrap-4') }}
+            </div>
+
+            <!-- ページカウント -->
+            <div class="page_count text-center">
+                <p>{{ $items->firstItem() }} ～{{ $items->lastItem() }} 件 / {{ $items->total() }} 件</p>
+            </div>
+
         </div>
 
 @stop
