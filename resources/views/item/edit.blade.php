@@ -84,11 +84,12 @@
                 @else
                 <a href="/items/dump/{{$item->id}}">
                     <button type="button" class="btn btn-success mr-3">捨てる</button>
+                </a>
                 @endif
 
                 <a href="/items/delete/{{$item->id}}">
                     <button type="button" class="btn btn btn-danger" onclick='return confirm("本当に削除しますか？（捨てる場合は、「捨てる」ボタンを押してください）")'>削除</button>
-
+                </a>
 
         </div>
     </div>

@@ -174,7 +174,7 @@ class ItemController extends Controller
         $items = Item::where('id', $request->id)->first();
         $items->delete();
 
-        return redirect()->back();
+        return redirect('/items');
     }
 
     /**

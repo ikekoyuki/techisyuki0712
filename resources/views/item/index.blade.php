@@ -88,7 +88,7 @@
                                     <td>{{ $item->purchasedate }}</td>
                                     <td class="text-truncate" style="max-width: 200px;">{{ $item->detail }}</td>
 
-                                    <!-- 編集ボタン -->
+                                    <!-- ボタン -->
                                     <td class="text-right">
                                     <a href="{{ url('items/edit',$item->id) }}" class="btn btn-primary btn-sm mr-3">編集</a>
                                     <a href="{{ url('items/dump',$item->id) }}" class="btn btn-success btn-sm mr-3">捨てる</a>
