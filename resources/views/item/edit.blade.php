@@ -69,6 +69,14 @@
                             <input type="date" data-input class="form-control" id="purchasedate" name="purchasedate" placeholder="購入日" value="{{ old('purchasedate', $item->purchasedate) }}">
                         </div>
 
+                        @if($item->type != "3")
+                        @else
+                        <div class="form-group col-2">
+                            <label for="dumpdate">捨てた日</label>
+                            <input type="date" data-input class="form-control" id="dumpdate" name="dumpdate" placeholder="捨てた日" value="{{ old('dumpdate', $item->dumpdate) }}">
+                        </div>
+                        @endif
+
                         <div class="form-group">
                             <label for="detail">メモ</label>
                             <textarea class="form-control" id="detail" name="detail" placeholder="メモ">{{ old('detail', $item->detail) }}</textarea>

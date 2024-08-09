@@ -131,6 +131,7 @@ class ItemController extends Controller
                 'area' => $request->area,
                 'type' => $request->type,
                 'purchasedate' => $request->purchasedate,
+                'dumpdate' => $request->dumpdate,
                 'detail' => $request->detail
             ]);
         }
@@ -172,9 +173,17 @@ class ItemController extends Controller
     public function delete(Request $request)
     {
         $items = Item::where('id', $request->id)->first();
-        $items->delete();
 
+        if ($items->type != 3) {
+
+        $items->delete();
         return redirect('/items');
+
+        }
+
+        $items->delete();
+        return redirect('/items/lookback');
+
     }
 
     /**
