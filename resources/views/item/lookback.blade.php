@@ -35,7 +35,7 @@
                 <input type="submit" value="検索" class="btn btn-default btn-sm mb-3 ms-3" style="margin-right: 5px;">
 
             <!-- リセットボタン -->
-                <a href="{{ url('items') }}" class="btn btn-default btn-sm mb-3 ms-3">リセット</a>
+                <a href="{{ url('items/lookback') }}" class="btn btn-default btn-sm mb-3 ms-3">リセット</a>
 
             </div>
 
