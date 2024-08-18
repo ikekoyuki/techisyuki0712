@@ -30,12 +30,12 @@
                     @csrf
                     <div class="card-body">
 
-                        <div class="form-group">
+                        <div class="form-group col-12">
                             <label for="name">名前</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="名前" value="{{ old('name', $item->name) }}">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group col-12">
                             <label for="name">エリア</label>
                             <select name="area" data-toggle="select" class="form-control">
                                 <option value="" {{ old('area',$item->area) == isset($item->area) ? "selected":"" }}>未選択</option>
@@ -48,7 +48,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group col-12">
                             <label for="type">分類</label>
                             <select name="type" data-toggle="select" class="form-control">
                                 <option value="" {{ old('area',$item->area) == isset($item->type) ? "selected":"" }}>未選択</option>
@@ -77,13 +77,41 @@
                         </div>
                         @endif
 
-                        <div class="form-group">
+                        <div class="form-group col-12">
                             <label for="detail">メモ</label>
                             <textarea class="form-control" id="detail" name="detail" placeholder="メモ">{{ old('detail', $item->detail) }}</textarea>
                         </div>
-                    </div>
-                </div>
 
+
+                    <!-- 画像アップロード -->
+                    <div class="form-group col-12">
+                        <label for="image">画像</label>
+                        <br>
+                        <input class="mb-3" type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                        <br>
+                        <!-- 画像プレビュー -->
+                        @if($image)
+                            <img id="imagePreview" src="data:image/png;base64,{{ $image }}" style="width: 30%; height: auto;">
+                        @else
+                            <img id="imagePreview" style="width: 30%; height: auto; display: none;">
+                        @endif
+                    </div>
+
+                    <!-- JavaScriptによるプレビュー処理 -->
+                    <script>
+                        function previewImage(event) {
+                            var reader = new FileReader();
+                            reader.onload = function(){
+                                var output = document.getElementById('imagePreview');
+                                output.src = reader.result;
+                                output.style.display = 'block';
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        }
+                    </script>
+
+                </div>
+            </div>
 
                     <button type="submit" class="btn btn-primary mr-3">編集</button>
                 </form>

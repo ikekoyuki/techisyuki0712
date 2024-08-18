@@ -19,6 +19,7 @@ class Item extends Model
         'area',
         'type',
         'detail',
+        'image',
         'purchasedate',
         'dumpdate'
     ];

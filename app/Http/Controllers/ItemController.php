@@ -75,23 +75,34 @@ class ItemController extends Controller
                 'area' => 'required',
                 'type' => 'required',
                 'detail' => 'max:300',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ],
             [
                 'name.required' => '名前を入力してください',
                 'name.max' => '名前の入力は50文字までです。',
                 'area.required' => 'エリアを選択してください',
                 'type.required' => '分類を選択してください',
-                'detail.max' => 'メモの入力は300文字までです。'
+                'detail.max' => 'メモの入力は300文字までです。',
+                'image.required' => '画像をアップロードしてください。',
+                'image.image' => '有効な画像ファイルを選択してください。',
+                'image.mimes' => 'アップロードできる画像形式はjpeg, png, jpg, gifのみです。',
+                'image.max' => '画像のサイズは2MB以下にしてください。',
             ]);
 
             // モノ登録
+
+            // 画像をBase64エンコードして保存
+            $image = base64_encode(file_get_contents($request->file('image')->getRealPath()));
+
+
             Item::create([
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
                 'area' => $request->area,
                 'type' => $request->type,
                 'purchasedate' => $request->purchasedate,
-                'detail' => $request->detail
+                'detail' => $request->detail,
+                'image' => $image
             ]);
 
             return redirect('/items');
@@ -113,39 +124,55 @@ class ItemController extends Controller
                 'area' => 'required',
                 'type' => 'required',
                 'detail' => 'max:300',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
             ],
             [
                 'name.required' => '名前を入力してください',
                 'name.max' => '名前の入力は50文字までです。',
                 'area.required' => 'エリアを選択してください',
                 'type.required' => '分類を選択してください',
-                'detail.max' => 'メモの入力は300文字までです。'
+                'detail.max' => 'メモの入力は300文字までです。',
+                'image.image' => '有効な画像ファイルを選択してください。',
+                'image.mimes' => 'アップロードできる画像形式はjpeg, png, jpg, gifのみです。',
+                'image.max' => '画像のサイズは2MB以下にしてください。'
             ]);
 
-        $items = Item::find($request->id);
+        $item = Item::find($request->id);
 
-        if ($items) {
-            $items->update([
+        if ($item) {
+            // 画像がアップロードされた場合
+            if ($request->hasFile('image')) {
+                // 画像を保存しパスを取得
+                $imagePath = $request->file('image')->store('images', 'public'); // publicに保存
+                $image = base64_encode(file_get_contents(storage_path('app/public/' . $imagePath)));
+                $item->image = $image; // データベースにBase64エンコードされた画像を保存
+            }
+
+            // 他のフィールドを更新
+            $item->update([
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
                 'area' => $request->area,
                 'type' => $request->type,
                 'purchasedate' => $request->purchasedate,
                 'dumpdate' => $request->dumpdate,
-                'detail' => $request->detail
+                'detail' => $request->detail,
             ]);
-        }
 
-        if ($items->type != 3) {
-            return redirect('/items');
-        }
+            // リダイレクト処理
+            if ($item->type != 3) {
+                return redirect('/items');
+            }
 
             return redirect('/items/lookback');
-
+        }
     }
 
-        return view('item.edit',['item' => Item::find($request->id)] );
-    }
+    // 編集ページを表示
+    $item = Item::find($request->id);
+    $image = $item->image;  // 既存の画像を取得してビューに渡す
+    return view('item.edit', ['item' => $item, 'image' => $image]);
+}
 
     /**
      * 捨てる

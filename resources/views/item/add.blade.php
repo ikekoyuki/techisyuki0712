@@ -24,7 +24,7 @@
             @endif
 
             <div class="card card-primary">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
 
@@ -65,6 +65,33 @@
                             <label for="detail">メモ</label>
                             <textarea class="form-control" id="detail" name="detail" placeholder="メモ">{{ old('detail') }}</textarea>
                         </div>
+
+                    <!-- 画像アップロード -->
+                    <div class="form-group col-12">
+                        <label for="image">画像</label>
+                        <br>
+                        <input class="mb-3" type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                        <br>
+                        <!-- 画像プレビュー -->
+                        @if(!empty($image))
+                            <img id="imagePreview" src="data:image/png;base64,{{ $image }}" style="width: 30%; height: auto;">
+                        @else
+                            <img id="imagePreview" style="width: 30%; height: auto; display: none;">
+                        @endif
+                    </div>
+
+                    <!-- JavaScriptのプレビュー処理 -->
+                    <script>
+                        function previewImage(event) {
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                var imagePreview = document.getElementById('imagePreview');
+                                imagePreview.src = e.target.result;
+                                imagePreview.style.display = 'block';
+                            }
+                            reader.readAsDataURL(event.target.files[0]);
+                        }
+                    </script>
                     </div>
             </div>
 

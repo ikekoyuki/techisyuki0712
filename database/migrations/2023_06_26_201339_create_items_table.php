@@ -18,6 +18,7 @@ return new class extends Migration
             $table->tinyInteger('area');
             $table->tinyInteger('type');
             $table->string('detail', 300)->nullable();
+            $table->longText('image')->nullable();
             $table->date('purchasedate')->nullable(); //購入した日
             $table->date('dumpdate')->nullable(); //「捨てたモノ一覧」に移動した日
             $table->timestamps();
