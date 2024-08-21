@@ -1,43 +1,34 @@
-## 商品管理システム
+# 片付け管理システム
+## 概要
+近年、モノの大量消費や必要以上にモノを所有することで、ストレスや不必要な出費、環境負荷が増大するなどの問題が発生。
 
-### 環境構築手順
+最近では「断捨離」という考え方が広まり、モノを最低限に抑えることは、快適な居住スペースを広げるだけではなく、心の整理や精神的な健康にも良いと注目されています。
 
-* Gitクローン
-* .env.example をコピーして .env を作成
-* MySQLのデータベース作成（名前：item_management）
-* Macの場合 .env の DB_PASSWORD を root に修正（Windowsは修正不要）
+しかし、「モノをとにかく捨てる」という意識だけで行動してしまうと、必要なモノや大切なモノまで失ってしまう可能性があります。
 
-    ```INI
-    DB_PASSWORD=root
-    ```
+それぞれのモノがどれだけあって、何が不要かを記録し、正しく片付けを行うための後押しのため、この「片付け管理システム」を開発しました。
 
-* APP_KEY生成
+## 主な機能
+- ログイン・ログアウト機能
+- モノ一覧画面
+- 捨てたモノ一覧画面
+- モノ新規登録、編集、削除機能
+- モノ検索機能
+- 画像保存機能
 
-    ```console
-    php artisan key:generate
-    ```
+## 開発環境
+PHP 8.3.7
+Laravel 10.48.16
 
-* Composerインストール
+## 設計書
+https://drive.google.com/drive/folders/1kgmIKk6YwrhKRMuvorujJrm9GrK89Gd_?usp=drive_link
 
-    ```console
-    composer install
-    ```
+## システム閲覧
+https://techisyuki0712-c967b443baef.herokuapp.com/login
 
-* フロント環境構築
+### テストアカウント情報
+```
+メールアドレス : test@gmail.com
+パスワード : test1234
+```
 
-    ```console
-    npm ci
-    npm run build
-    ```
-
-* マイグレーション
-
-    ```console
-    php artisan migrate
-    ```
-
-* 起動
-
-    ```console
-    php artisan serve
-    ```
