@@ -73,8 +73,8 @@
                         <input class="mb-3" type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
                         <br>
                         <!-- 画像プレビュー -->
-                        @if(!empty($image))
-                            <img id="imagePreview" src="data:image/png;base64,{{ $image }}" style="width: 30%; height: auto;">
+                        @if(!empty($item->image))
+                            <img id="imagePreview" src="data:image/png;base64,{{ $item->image }}" style="width: 30%; height: auto;">
                         @else
                             <img id="imagePreview" style="width: 30%; height: auto; display: none;">
                         @endif

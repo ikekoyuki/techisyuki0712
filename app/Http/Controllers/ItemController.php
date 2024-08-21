@@ -94,7 +94,6 @@ class ItemController extends Controller
             // 画像をBase64エンコードして保存
             $image = base64_encode(file_get_contents($request->file('image')->getRealPath()));
 
-
             Item::create([
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
@@ -124,7 +123,7 @@ class ItemController extends Controller
                 'area' => 'required',
                 'type' => 'required',
                 'detail' => 'max:300',
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ],
             [
                 'name.required' => '名前を入力してください',
@@ -139,14 +138,23 @@ class ItemController extends Controller
 
         $item = Item::find($request->id);
 
-        if ($item) {
-            // 画像がアップロードされた場合
-            if ($request->hasFile('image')) {
-                // 画像を保存しパスを取得
-                $imagePath = $request->file('image')->store('images', 'public'); // publicに保存
-                $image = base64_encode(file_get_contents(storage_path('app/public/' . $imagePath)));
-                $item->image = $image; // データベースにBase64エンコードされた画像を保存
-            }
+        if ($request->file('image')){
+
+            // 画像をBase64エンコードして保存
+            $image = base64_encode(file_get_contents($request->file('image')->getRealPath()));
+            // 他のフィールドを更新
+            $item->update([
+                'user_id' => Auth::user()->id,
+                'name' => $request->name,
+                'area' => $request->area,
+                'type' => $request->type,
+                'purchasedate' => $request->purchasedate,
+                'dumpdate' => $request->dumpdate,
+                'detail' => $request->detail,
+                'image' => $image
+            ]);
+            
+        }else{
 
             // 他のフィールドを更新
             $item->update([
@@ -159,6 +167,8 @@ class ItemController extends Controller
                 'detail' => $request->detail,
             ]);
 
+        }
+
             // リダイレクト処理
             if ($item->type != 3) {
                 return redirect('/items');
@@ -166,12 +176,8 @@ class ItemController extends Controller
 
             return redirect('/items/lookback');
         }
-    }
 
-    // 編集ページを表示
-    $item = Item::find($request->id);
-    $image = $item->image;  // 既存の画像を取得してビューに渡す
-    return view('item.edit', ['item' => $item, 'image' => $image]);
+        return view('item.edit',['item' => Item::find($request->id)]);
 }
 
     /**

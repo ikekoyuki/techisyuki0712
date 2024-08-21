@@ -26,7 +26,7 @@
             @endif
 
             <div class="card card-primary">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
 
@@ -90,8 +90,8 @@
                         <input class="mb-3" type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
                         <br>
                         <!-- 画像プレビュー -->
-                        @if($image)
-                            <img id="imagePreview" src="data:image/png;base64,{{ $image }}" style="width: 30%; height: auto;">
+                        @if(!empty($item->image))
+                            <img id="imagePreview" src="data:image/png;base64,{{ $item->image }}" style="width: 30%; height: auto;">
                         @else
                             <img id="imagePreview" style="width: 30%; height: auto; display: none;">
                         @endif
